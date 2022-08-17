@@ -117,7 +117,7 @@ static int mjp_read(mjp_dt_t addr)
 int mjp_start(mjp_des_wr_t des_wr_cb, mjp_org_rd_t org_rd_cb, mjp_copy_t copy_cb)
 {
     memset(&mjp, 0, sizeof(mjp_t));
-    mjp.cmd = MJP_EOF;
+    mjp.cmd = MJP_MOD;
     mjp.last_dt = MJP_EOF;
     mjp.des_wr_cb = des_wr_cb;
     mjp.org_rd_cb = org_rd_cb;
@@ -145,7 +145,7 @@ int mjp_apply_feed(int dt)
         }
         if (val != 0) {
             mjp.ofile_addr += val;
-            mjp.cmd = MJP_EOF;
+            mjp.cmd = MJP_MOD;
         }
         break;
     case EQL:
@@ -167,7 +167,7 @@ int mjp_apply_feed(int dt)
                     mjp.ofile_addr++;
                 }
             }
-            mjp.cmd = MJP_EOF;
+            mjp.cmd = MJP_MOD;
         }
         break;
     case BKT:
@@ -177,7 +177,7 @@ int mjp_apply_feed(int dt)
         }
         if (val != 0) {
             mjp.ofile_addr -= val;
-            mjp.cmd = MJP_EOF;
+            mjp.cmd = MJP_MOD;
         }
         break;
     default:
@@ -291,7 +291,7 @@ int mjp_parse_feed(int dt)
         if (val != 0) {
             mjp_log_cmd(mjp.cmd, mjp.ofile_addr, mjp.dfile_addr, val);
             mjp.ofile_addr += val;
-            mjp.cmd = MJP_EOF;
+            mjp.cmd = MJP_MOD;
         }
         break;
     case EQL:
@@ -304,7 +304,7 @@ int mjp_parse_feed(int dt)
             mjp_log_cmd(mjp.cmd, mjp.ofile_addr, mjp.dfile_addr, val);
             mjp.dfile_addr += val;
             mjp.ofile_addr += val;
-            mjp.cmd = MJP_EOF;
+            mjp.cmd = MJP_MOD;
         }
         break;
     case BKT:
@@ -316,7 +316,7 @@ int mjp_parse_feed(int dt)
         if (val != 0) {
             mjp_log_cmd(mjp.cmd, mjp.ofile_addr, mjp.dfile_addr, val);
             mjp.ofile_addr -= val;
-            mjp.cmd = MJP_EOF;
+            mjp.cmd = MJP_MOD;
         }
         break;
     default:
